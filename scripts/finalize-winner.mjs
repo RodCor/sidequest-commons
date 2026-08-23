@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 const token = process.env.GITHUB_TOKEN;
 const repository = process.env.GITHUB_REPOSITORY ?? "RodCor/sidequest-commons";
 if (!token) throw new Error("GITHUB_TOKEN is required");
+const maintainer = repository.split("/")[0].replace(/[^a-zA-Z0-9-]/g, "");
 
 const current = JSON.parse(readFileSync("data/current-winner.json", "utf8")).winner;
 if (!current) {
@@ -45,6 +46,7 @@ if (!builds.some((build) => build.body?.includes(buildMarker))) {
       title: `[Build ${current.round}] ${current.title}`,
       body: `${buildMarker}\n## Daily build\n\nThe Commons selected #${issueNumber} with ${winner.votes} vote${winner.votes === 1 ? "" : "s"}.\n\n- Guarded workspace: \`${winner.projectPath}\`\n- Builder input: \`${winner.projectPath}/PROJECT.json\`\n- Raw proposal access: **forbidden**\n- Deployment: **requires maintainer approval**\n\nContributions should target this workspace and follow its \`AGENTS.md\`.`,
       labels: ["build"],
+      assignees: maintainer ? [maintainer] : [],
     }),
   });
 }

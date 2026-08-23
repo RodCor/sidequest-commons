@@ -15,7 +15,7 @@ The system deliberately separates popularity from authority: proposal text is un
 3. Vote with a 👍 reaction on the proposals you want built. A GitHub star is welcome but entirely optional.
 4. At 21:00 `America/Argentina/Buenos_Aires`, the scheduled workflow selects the eligible open proposal with the most 👍 reactions.
 5. Ties resolve deterministically: oldest proposal first, then lowest issue number.
-6. The selector writes an immutable round record and a minimal project workspace under `projects/`. Losing proposals remain in the rolling queue.
+6. The selector writes an immutable round record and a minimal project workspace under `projects/`, then assigns a build tracker to the maintainer. Losing proposals remain in the rolling queue.
 
 The builder consumes only the generated `PROJECT.json`. It is forbidden from opening the source proposal, following its links, reading secrets, deploying, or contacting third parties.
 
