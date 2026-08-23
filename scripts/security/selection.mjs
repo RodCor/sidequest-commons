@@ -7,6 +7,10 @@ export function rankCandidates(candidates) {
   );
 }
 
+export function hasPublicVote(candidate) {
+  return Number(candidate?.issue?.reactions?.["+1"]) > 0;
+}
+
 export function roundDate(date) {
   const parts = new Intl.DateTimeFormat("en-US", {
     timeZone: "America/Argentina/Buenos_Aires",

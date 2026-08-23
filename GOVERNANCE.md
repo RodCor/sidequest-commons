@@ -2,7 +2,7 @@
 
 ## Daily selection
 
-At 21:00 `America/Argentina/Buenos_Aires`, the selector considers open issues carrying both `proposal` and `eligible`. It re-runs policy evaluation, then orders candidates by:
+At 21:00 `America/Argentina/Buenos_Aires`, the selector considers open issues carrying both `proposal` and `eligible`. A proposal needs at least one 👍 reaction to enter the selection. It re-runs policy evaluation, then orders candidates by:
 
 1. 👍 reaction count, descending.
 2. Issue creation time, ascending.
@@ -21,4 +21,3 @@ Stars are an optional expression of interest. They are never required to propose
 ## Changes to governance
 
 Changes to selection, guardrails, workflow permissions, or agent boundaries require CODEOWNER review and must preserve a public audit trail.
-

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { rankCandidates, roundDate } from "./selection.mjs";
+import { hasPublicVote, rankCandidates, roundDate } from "./selection.mjs";
 
 function candidate(number, votes, createdAt) {
   return { issue: { number, created_at: createdAt, reactions: { "+1": votes } } };
@@ -21,6 +21,11 @@ describe("daily selection", () => {
       candidate(7, 4, "2026-01-01T00:00:00Z"),
     ]);
     expect(ranked.map(({ issue }) => issue.number)).toEqual([7, 8, 9]);
+  });
+
+  it("requires at least one public vote", () => {
+    expect(hasPublicVote(candidate(1, 0, "2026-01-01T00:00:00Z"))).toBe(false);
+    expect(hasPublicVote(candidate(2, 1, "2026-01-01T00:00:00Z"))).toBe(true);
   });
 
   it("uses the Buenos Aires calendar date", () => {

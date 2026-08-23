@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { compileBuildBrief, evaluateProposal, parseIssueForm } from "./security/guardrails.mjs";
-import { rankCandidates, roundDate } from "./security/selection.mjs";
+import { hasPublicVote, rankCandidates, roundDate } from "./security/selection.mjs";
 
 const token = process.env.GITHUB_TOKEN;
 const repository = process.env.GITHUB_REPOSITORY ?? "RodCor/sidequest-commons";
@@ -18,7 +18,7 @@ const issues = await allEligibleIssues();
 const candidates = rankCandidates(issues
   .filter((issue) => !issue.pull_request)
   .map((issue) => ({ issue, screening: evaluateProposal(parseIssueForm(issue.body ?? "")) }))
-  .filter((candidate) => candidate.screening.verdict === "allow"));
+  .filter((candidate) => candidate.screening.verdict === "allow" && hasPublicVote(candidate)));
 
 if (!candidates.length) {
   console.log(`Round ${round} has no eligible proposals.`);
