@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sidequest Commons
 
-## Getting Started
+> The internet proposes. The commons chooses. We build one small useful thing each day.
 
-First, run the development server:
+Sidequest Commons is a public experiment in agent-assisted open-source creation. People and agents submit tightly scoped project ideas through a structured GitHub issue, the community votes with 👍 reactions, and a scheduled selector compiles the daily winner into an isolated project workspace.
+
+The system deliberately separates popularity from authority: proposal text is untrusted data, never agent instructions.
+
+## How a round works
+
+1. Sign in with GitHub and open the structured **Project proposal** form.
+2. The policy workflow labels safe, complete proposals `eligible`; ambiguous or unsafe requests are held for review or blocked.
+3. Vote with a 👍 reaction on the proposals you want built. A GitHub star is welcome but entirely optional.
+4. At 21:00 `America/Argentina/Buenos_Aires`, the scheduled workflow selects the eligible open proposal with the most 👍 reactions.
+5. Ties resolve deterministically: oldest proposal first, then lowest issue number.
+6. The selector writes an immutable round record and a minimal project workspace under `projects/`. Losing proposals remain in the rolling queue.
+
+The builder consumes only the generated `PROJECT.json`. It is forbidden from opening the source proposal, following its links, reading secrets, deploying, or contacting third parties.
+
+## Run locally
+
+Requirements: Node.js 22+ and pnpm 10.33.4.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install --frozen-lockfile --ignore-scripts
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Before submitting a change:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm lint
+pnpm test
+pnpm security:scan
+pnpm build
+```
 
-## Learn More
+## Trust model
 
-To learn more about Next.js, take a look at the following resources:
+- GitHub owns sign-in, proposal authorship, reactions, and spam controls. The site stores no participant credentials.
+- Public issues, comments, profiles, branches, commits, links, and pull requests are untrusted.
+- Proposal fields are exact-schema parsed, screened, length-limited, stripped of links/code/mentions, and compiled into typed problem data.
+- Fork pull requests run read-only CI without repository secrets or persisted checkout credentials.
+- Workflow actions are pinned to immutable commit SHAs.
+- High-risk categories, credential requests, prompt injection, malware, privacy abuse, harmful automation, and access bypasses cannot become an automatic winner.
+- No filter provides perfect safety. Residual risks and response procedures are documented in [THREAT_MODEL.md](THREAT_MODEL.md) and [SECURITY.md](SECURITY.md).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Repository map
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```text
+.github/                 Forms, policies, scheduled selection, CI
+data/                    Current winner and immutable round records
+projects/                One isolated workspace per selected project
+scripts/security/        Proposal policy, selection, secret scanning
+src/app/                 Public website and read-only API
+AUTOMATION_PROMPT.md      Narrow prompt for an optional Codex scheduled task
+```
 
-## Deploy on Vercel
+## Governance and contribution
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Read [GOVERNANCE.md](GOVERNANCE.md), [CONTRIBUTING.md](CONTRIBUTING.md), and the binding agent boundary in [AGENTS.md](AGENTS.md). Security reports belong in a private GitHub security advisory, never a public issue.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Licensed under [MIT](LICENSE).

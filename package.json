@@ -6,22 +6,32 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "security:scan": "node scripts/security/scan-secrets.mjs",
+    "proposal:validate": "node scripts/validate-proposal.mjs",
+    "winner:select": "node scripts/select-winner.mjs",
+    "winner:finalize": "node scripts/finalize-winner.mjs"
   },
   "dependencies": {
+    "lucide-react": "^1.33.0",
     "next": "16.3.2",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitest/coverage-v8": "^4.1.11",
     "eslint": "^9",
     "eslint-config-next": "16.3.2",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.11"
   },
   "packageManager": "pnpm@10.33.4"
 }

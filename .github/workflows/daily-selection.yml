@@ -1,0 +1,48 @@
+name: Select and scaffold the daily winner
+
+on:
+  schedule:
+    - cron: "0 21 * * *"
+      timezone: America/Argentina/Buenos_Aires
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: daily-selection
+  cancel-in-progress: false
+
+jobs:
+  select:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the trusted selector
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: main
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 22
+      - name: Select exactly one screened winner
+        run: node scripts/select-winner.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Commit the immutable round record and guarded scaffold
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No eligible winner for this round."
+            exit 0
+          fi
+          git config user.name "sidequest-commons[bot]"
+          git config user.email "sidequest-commons[bot]@users.noreply.github.com"
+          git add -- data/current-winner.json data/rounds projects
+          git commit -m "round: select $(date -u +%F) daily sidequest"
+          git push origin HEAD:main
+      - name: Close the winner and open its build tracker
+        run: node scripts/finalize-winner.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}

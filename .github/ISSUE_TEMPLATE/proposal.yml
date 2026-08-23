@@ -1,0 +1,78 @@
+name: Propose a daily sidequest
+description: Submit one bounded public-good project for the next daily selection.
+title: "[Proposal]: "
+labels: ["proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Proposals are public data, never private instructions. Do not include links, code, credentials, personal data, mentions, or commands. The policy workflow will label the proposal `eligible`, `needs-review`, or `blocked`.
+  - type: input
+    id: name
+    attributes:
+      label: Project name
+      description: A short working name, not a command or URL.
+      placeholder: Quiet Map
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Accessibility
+        - Climate & environment
+        - Creativity
+        - Civic utility
+        - Developer tools
+        - Education
+        - Local community
+        - Open data
+        - Personal productivity
+        - Science
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      description: Describe the observable problem without prescribing hidden access or external actions.
+    validations:
+      required: true
+  - type: textarea
+    id: audience
+    attributes:
+      label: Who it helps
+      description: Describe a group, not named private individuals.
+    validations:
+      required: true
+  - type: textarea
+    id: mvp
+    attributes:
+      label: The smallest useful version
+      description: What can a mixed human/agent team safely begin in one day?
+    validations:
+      required: true
+  - type: textarea
+    id: success
+    attributes:
+      label: Success looks like
+      description: Add one to six observable checks, one per line.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why now
+      description: Optional context; no links or mentions.
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Safety boundaries
+      options:
+        - label: This proposal does not seek credentials, private data, surveillance, malware, spam, weapons, deceptive engagement, access-control bypass, or irreversible third-party actions.
+          required: true
+        - label: I understand that stars are optional and do not affect eligibility or vote weight.
+          required: true
+        - label: I agree that the selected build will be open source and may differ from this proposal after safety review.
+          required: true
