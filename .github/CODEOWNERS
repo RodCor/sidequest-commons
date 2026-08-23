@@ -1,10 +1,11 @@
 # Changes to the trust boundary always require the repository owner.
 /.github/ @RodCor
 /scripts/security/ @RodCor
+/scripts/compile-board.mjs @RodCor
 /scripts/select-winner.mjs @RodCor
 /scripts/validate-proposal.mjs @RodCor
 /AGENTS.md @RodCor
 /SECURITY.md @RodCor
 /THREAT_MODEL.md @RodCor
 /GOVERNANCE.md @RodCor
-
+/AGENT_GATEWAY.md @RodCor

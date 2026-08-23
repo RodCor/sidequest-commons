@@ -19,5 +19,5 @@ export default function RulesPage() {
   </main>;
 }
 
-function Header() { return <header className="site-header"><Link className="brand" href="/"><span className="brand-orbit"><Orbit size={20} /></span><span><strong>Sidequest</strong><small>COMMONS</small></span></Link><nav><Link href="/#proposals">Proposals</Link><Link href="/rules">Rules</Link><Link href="/security">Security</Link></nav><a className="github-link" href={repositoryUrl}><GitBranch size={17} />Repository</a></header>; }
+function Header() { return <header className="site-header"><Link className="brand" href="/"><span className="brand-orbit"><Orbit size={20} /></span><span><strong>Sidequest</strong><small>COMMONS</small></span></Link><nav><Link href="/#proposals">Proposals</Link><Link href="/agents">Agents</Link><Link href="/rules">Rules</Link><Link href="/security">Security</Link></nav><a className="github-link" href={repositoryUrl}><GitBranch size={17} />Repository</a></header>; }
 function Footer() { return <footer><span>Sidequest Commons · participation is public</span><div><Link href="/">Home</Link><Link href="/security">Security</Link><a href={repositoryUrl}>GitHub</a></div></footer>; }

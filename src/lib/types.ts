@@ -19,3 +19,16 @@ export interface Winner {
   votes: number;
   projectPath: string;
 }
+
+export interface ContributionPassport {
+  login: string;
+  profileUrl: string;
+  rank: { id: "scout" | "builder" | "pathfinder" | "trailblazer"; title: string; level: number };
+  badges: string[];
+  stats: {
+    acceptedProposals: number;
+    winningProposals: number;
+    mergedContributions: number;
+  };
+  nextMilestone: string;
+}

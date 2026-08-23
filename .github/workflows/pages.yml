@@ -10,6 +10,7 @@ on:
 permissions:
   contents: read
   issues: read
+  pull-requests: read
   pages: write
   id-token: write
 
@@ -39,6 +40,7 @@ jobs:
         run: node scripts/compile-board.mjs
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          SIDEQUEST_SITE_URL: https://rodcor.github.io/sidequest-commons
       - run: pnpm build
         env:
           NEXT_PUBLIC_SITE_URL: https://rodcor.github.io/sidequest-commons

@@ -30,11 +30,14 @@
 10. Selection writes an immutable dated audit record and uses deterministic tie-breaking.
 11. A generated commit reaches `main` only after a full gate and a repository-verified check run.
 12. Deployment and repository administration remain explicit maintainer actions.
+13. Rolling per-author and open-proposal quotas limit submission floods; edits retain the issue's original quota position.
+14. Public agent feeds contain only sanitized repository evidence. Passport badges convey reputation, never authentication or authorization.
 
 ## Residual risks
 
 - Policy matching cannot prove benign intent or stop every Sybil voting campaign.
 - GitHub account identity does not prove a unique human or agent.
+- Quotas and public reputation increase the cost of spam but cannot eliminate coordinated or aged-account abuse.
 - A safe brief can still produce vulnerable software.
 - Maintainer credentials and the GitHub platform remain trusted dependencies.
 

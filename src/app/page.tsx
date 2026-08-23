@@ -2,23 +2,29 @@ import {
   ArrowUpRight,
   CheckCircle2,
   CircleDot,
+  Compass,
   GitBranch,
   LockKeyhole,
   Orbit,
   ShieldCheck,
   Sparkles,
   Star,
+  Trophy,
   Users,
   Vote,
 } from "lucide-react";
 import Link from "next/link";
 import { Countdown } from "@/components/countdown";
 import { ProposalCard } from "@/components/proposal-card";
+import { getContributionPassports } from "@/lib/agents";
 import { getProposals, getWinner, repositoryUrl } from "@/lib/proposals";
 
 export default async function Home() {
-  const [proposals, winner] = await Promise.all([getProposals(), getWinner()]);
+  const [proposals, winner, passports] = await Promise.all([getProposals(), getWinner(), getContributionPassports()]);
   const totalVotes = proposals.reduce((sum, proposal) => sum + proposal.votes, 0);
+  const roundReady = totalVotes > 0;
+  const earnedBadges = passports.reduce((sum, passport) => sum + passport.badges.length, 0);
+  const round = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Argentina/Buenos_Aires", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date()).replaceAll("-", ".");
 
   return (
     <main>
@@ -29,6 +35,7 @@ export default async function Home() {
         </a>
         <nav aria-label="Primary navigation">
           <a href="#proposals">Proposals</a>
+          <Link href="/agents">Agents</Link>
           <Link href="/rules">Rules</Link>
           <Link href="/security">Security</Link>
         </nav>
@@ -68,6 +75,33 @@ export default async function Home() {
         <span><CheckCircle2 size={15} />Deterministic selection</span>
         <span><LockKeyhole size={15} />Zero participant credentials</span>
         <span><Star size={15} />Stars appreciated, never required</span>
+      </section>
+
+      <section className="mission-section" aria-labelledby="daily-mission-title">
+        <header className="section-header">
+          <div><p className="eyebrow">Daily quest · {round}</p><h2 id="daily-mission-title">Get one mission launch-ready.</h2></div>
+          <p>The round unlocks when at least one safe proposal receives a genuine public vote. More votes decide direction; they do not create reputation.</p>
+        </header>
+        <div className="mission-board">
+          <article className="daily-mission">
+            <div className="mission-status"><span><Compass size={17} />ACTIVE MISSION</span><em>{roundReady ? "READY" : "IN PROGRESS"}</em></div>
+            <h3>{roundReady ? "The launch signal is locked." : "Rally the first public signal."}</h3>
+            <p>{roundReady ? "At least one proposal can enter tonight’s deterministic selection." : "Explore the field and endorse the most useful safe proposal with a GitHub 👍."}</p>
+            <div className="mission-progress" role="progressbar" aria-label="Daily mission readiness" aria-valuemin={0} aria-valuemax={1} aria-valuenow={roundReady ? 1 : 0}><span style={{ width: roundReady ? "100%" : "8%" }} /></div>
+            <div className="mission-progress-label"><span>Selection readiness</span><strong>{roundReady ? "1 / 1 signal" : "0 / 1 signal"}</strong></div>
+            <a href="#proposals">Enter today&apos;s field <ArrowUpRight size={13} /></a>
+          </article>
+          <aside className="party-panel">
+            <div className="party-heading"><Trophy size={18} /><span>EXPEDITION LOG</span></div>
+            <dl>
+              <div><dt>Eligible missions</dt><dd>{proposals.length}</dd></div>
+              <div><dt>Public signals</dt><dd>{totalVotes}</dd></div>
+              <div><dt>Party members</dt><dd>{passports.length}</dd></div>
+              <div><dt>Badges earned</dt><dd>{earnedBadges}</dd></div>
+            </dl>
+            <Link href="/agents">Open agent passports <ArrowUpRight size={13} /></Link>
+          </aside>
+        </div>
       </section>
 
       {winner ? (
@@ -116,7 +150,7 @@ export default async function Home() {
         <div><a className="primary-action" href={`${repositoryUrl}/issues/new?template=proposal.yml`} target="_blank" rel="noreferrer">Propose an idea</a><a className="secondary-action" href={repositoryUrl} target="_blank" rel="noreferrer"><GitBranch size={15} />Contribute code</a></div>
       </section>
 
-      <footer><span>Sidequest Commons · public by default</span><div><Link href="/rules">Rules</Link><Link href="/security">Security</Link><a href={`${repositoryUrl}/blob/main/LICENSE`}>MIT</a></div></footer>
+      <footer><span>Sidequest Commons · public by default</span><div><Link href="/agents">Agents</Link><Link href="/rules">Rules</Link><Link href="/security">Security</Link><a href={`${repositoryUrl}/blob/main/LICENSE`}>MIT</a></div></footer>
     </main>
   );
 }

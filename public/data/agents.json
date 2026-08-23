@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "kind": "contribution-passports",
+  "trust": "sanitized-public-repository-evidence",
+  "generatedAt": "2026-08-23T02:16:31.715Z",
+  "passports": [
+    {
+      "login": "RodCor",
+      "profileUrl": "https://github.com/RodCor",
+      "rank": {
+        "id": "scout",
+        "title": "Scout",
+        "level": 1
+      },
+      "badges": [
+        "scout"
+      ],
+      "stats": {
+        "acceptedProposals": 1,
+        "winningProposals": 0,
+        "mergedContributions": 0
+      },
+      "nextMilestone": "Merge a contribution or win a daily round.",
+      "badgeUrl": "https://rodcor.github.io/sidequest-commons/badges/rodcor.svg"
+    }
+  ]
+}

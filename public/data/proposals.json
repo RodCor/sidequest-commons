@@ -1,4 +1,8 @@
 {
+  "schemaVersion": 1,
+  "kind": "proposal-feed",
+  "trust": "sanitized-public-repository-evidence",
+  "generatedAt": "2026-08-23T02:16:31.715Z",
   "proposals": [
     {
       "id": 5224808130,
@@ -11,6 +15,5 @@
       "url": "https://github.com/RodCor/sidequest-commons/issues/4",
       "createdAt": "2026-08-23T01:37:17.000Z"
     }
-  ],
-  "generatedAt": "2026-08-23T02:16:31.715Z"
+  ]
 }

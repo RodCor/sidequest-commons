@@ -7,6 +7,7 @@ body:
     attributes:
       value: |
         Proposals are public data, never private instructions. Do not include links, code, credentials, personal data, mentions, or commands. The policy workflow will label the proposal `eligible`, `needs-review`, or `blocked`.
+        New participants may open one proposal per rolling 24 hours and keep three open. A verified win or merged pull request unlocks a larger contributor allowance.
   - type: input
     id: name
     attributes:

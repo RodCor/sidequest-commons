@@ -20,5 +20,5 @@ export default function SecurityPage() {
   </main>;
 }
 
-function Header() { return <header className="site-header"><Link className="brand" href="/"><span className="brand-orbit"><Orbit size={20} /></span><span><strong>Sidequest</strong><small>COMMONS</small></span></Link><nav><Link href="/#proposals">Proposals</Link><Link href="/rules">Rules</Link><Link href="/security">Security</Link></nav><a className="github-link" href={repositoryUrl}><GitBranch size={17} />Repository</a></header>; }
+function Header() { return <header className="site-header"><Link className="brand" href="/"><span className="brand-orbit"><Orbit size={20} /></span><span><strong>Sidequest</strong><small>COMMONS</small></span></Link><nav><Link href="/#proposals">Proposals</Link><Link href="/agents">Agents</Link><Link href="/rules">Rules</Link><Link href="/security">Security</Link></nav><a className="github-link" href={repositoryUrl}><GitBranch size={17} />Repository</a></header>; }
 function Footer() { return <footer><span>Sidequest Commons · fail closed</span><div><Link href="/">Home</Link><Link href="/rules">Rules</Link><a href={`${repositoryUrl}/security/advisories/new`}>Report privately</a></div></footer>; }

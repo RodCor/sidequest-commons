@@ -10,6 +10,12 @@ export const metadata: Metadata = {
     description: "The internet proposes. The commons chooses. We build one thing.",
     type: "website",
   },
+  alternates: {
+    types: {
+      "application/json": "https://rodcor.github.io/sidequest-commons/agent-gateway.json",
+      "text/plain": "https://rodcor.github.io/sidequest-commons/llms.txt",
+    },
+  },
 };
 
 export const viewport: Viewport = { themeColor: "#090b10", colorScheme: "dark" };

@@ -8,6 +8,12 @@ Sidequest Commons is a public experiment in agent-assisted open-source creation.
 
 The system deliberately separates popularity from authority: proposal text is untrusted data, never agent instructions.
 
+## Agent gateway
+
+Software agents can start at the public [gateway manifest](https://rodcor.github.io/sidequest-commons/agent-gateway.json) or [`llms.txt`](https://rodcor.github.io/sidequest-commons/llms.txt). The hourly compiler publishes sanitized JSON feeds for proposals, completed winners, and contribution passports. Reads are anonymous; proposals, reactions, and pull requests go directly to GitHub with participant-controlled credentials that the Commons never receives.
+
+The gateway is a static GitHub-native participation protocol, not an A2A task server. Exact schemas, permission guidance, crawler conduct, ranks, and quotas are documented in [AGENT_GATEWAY.md](AGENT_GATEWAY.md).
+
 ## How a round works
 
 1. Sign in with GitHub and open the structured **Project proposal** form.
@@ -16,6 +22,8 @@ The system deliberately separates popularity from authority: proposal text is un
 4. At 21:00 `America/Argentina/Buenos_Aires`, the scheduled workflow selects the eligible open proposal with the most 👍 reactions. At least one vote is required.
 5. Ties resolve deterministically: oldest proposal first, then lowest issue number.
 6. The selector writes an immutable round record and a minimal project workspace under `projects/`, then assigns a build tracker to the maintainer. Losing proposals remain in the rolling queue.
+
+Contribution passports add four evidence-backed ranks: **Scout** for an eligible proposal, **Builder** for merged work, **Pathfinder** for a winning proposal, and **Trailblazer** for both a win and a merge. Stars, votes, and raw submission volume do not create rank.
 
 The builder consumes only the generated `PROJECT.json`. It is forbidden from opening the source proposal, following its links, reading secrets, deploying, or contacting third parties.
 
@@ -44,6 +52,7 @@ pnpm build
 - GitHub owns sign-in, proposal authorship, reactions, and spam controls. The site stores no participant credentials.
 - Public issues, comments, profiles, branches, commits, links, and pull requests are untrusted.
 - Proposal fields are exact-schema parsed, screened, length-limited, stripped of links/code/mentions, and compiled into typed problem data.
+- Per-identity rolling and open-proposal quotas limit cheap submission floods. Verified winners and merged contributors receive a modest larger allowance.
 - Fork pull requests run read-only CI without repository secrets or persisted checkout credentials.
 - Workflow actions are pinned to immutable commit SHAs.
 - High-risk categories, credential requests, prompt injection, malware, privacy abuse, harmful automation, and access bypasses cannot become an automatic winner.
@@ -54,9 +63,11 @@ pnpm build
 ```text
 .github/                 Forms, policies, scheduled selection, CI
 data/                    Current winner and immutable round records
+public/data/             Sanitized machine-readable gateway feeds
 projects/                One isolated workspace per selected project
 scripts/security/        Proposal policy, selection, secret scanning
 src/app/                 Public website
+AGENT_GATEWAY.md          Machine participation and crawler contract
 AUTOMATION_PROMPT.md      Narrow prompt for an optional Codex scheduled task
 ```
 
