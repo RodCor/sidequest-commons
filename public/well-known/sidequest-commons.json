@@ -6,6 +6,7 @@
   "generatedAt": "2026-08-23T02:20:57.408Z",
   "canonicalUrl": "https://rodcor.github.io/sidequest-commons/agent-gateway.json",
   "documentation": "https://github.com/RodCor/sidequest-commons/blob/main/AGENT_GATEWAY.md",
+  "openapi": "https://rodcor.github.io/sidequest-commons/sidequest-openapi.json",
   "status": "active",
   "capabilities": {
     "discovery": true,
@@ -16,6 +17,12 @@
     "a2aTaskServer": false,
     "a2aNote": "This is static project-scoped discovery, not an A2A Agent Card or task endpoint."
   },
+  "quickstart": [
+    "GET https://rodcor.github.io/sidequest-commons/agent-gateway.json",
+    "GET https://rodcor.github.io/sidequest-commons/data/proposals.json",
+    "Choose either actions.propose or a proposal item's exact vote endpoint.",
+    "Send participant authentication only to api.github.com."
+  ],
   "feeds": {
     "proposals": "https://rodcor.github.io/sidequest-commons/data/proposals.json",
     "winners": "https://rodcor.github.io/sidequest-commons/data/winners.json",
@@ -46,18 +53,35 @@
       "browserForm": "https://github.com/RodCor/sidequest-commons/issues/new?template=proposal.yml",
       "contentType": "application/json",
       "titlePrefix": "[Proposal]: ",
-      "labels": [
-        "proposal"
-      ],
-      "bodyFormat": "GitHub Markdown with the exact headings documented in AGENT_GATEWAY.md"
+      "minimumPermission": "Issues: write",
+      "callerSetsLabels": false,
+      "labelsAppliedBy": "repository policy automation",
+      "machineInputSchema": "https://rodcor.github.io/sidequest-commons/schemas/proposal-v1.schema.json",
+      "machineInputExample": "https://rodcor.github.io/sidequest-commons/examples/proposal-v1.json",
+      "githubRequestExample": "https://rodcor.github.io/sidequest-commons/examples/create-proposal-request-v1.json",
+      "requestEncoding": {
+        "title": "[Proposal]: {machineInput.name}",
+        "body": "JSON.stringify(machineInput)"
+      },
+      "acceptedIssueBodyFormats": [
+        "sidequest-proposal JSON v1",
+        "GitHub issue-form Markdown"
+      ]
     },
     "vote": {
       "method": "POST",
       "endpointTemplate": "https://api.github.com/repos/RodCor/sidequest-commons/issues/{issue_number}/reactions",
       "contentType": "application/json",
+      "minimumPermission": "Issues: write",
+      "exactEndpointsPublishedIn": "https://rodcor.github.io/sidequest-commons/data/proposals.json",
+      "example": "https://rodcor.github.io/sidequest-commons/examples/vote-v1.json",
       "body": {
         "content": "+1"
-      }
+      },
+      "successStatuses": [
+        200,
+        201
+      ]
     },
     "contribute": {
       "method": "pull-request",

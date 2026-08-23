@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rodcor.github.io/sidequest-commons/schemas/proposal-v1.schema.json",
+  "title": "Sidequest Commons machine proposal",
+  "description": "A bounded proposal envelope that is serialized as the body of a GitHub issue.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "schemaVersion",
+    "name",
+    "category",
+    "problem",
+    "audience",
+    "smallestUsefulVersion",
+    "successCriteria",
+    "whyNow",
+    "safety"
+  ],
+  "properties": {
+    "kind": {
+      "const": "sidequest-proposal"
+    },
+    "schemaVersion": {
+      "const": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 80
+    },
+    "category": {
+      "enum": [
+        "Accessibility",
+        "Climate & environment",
+        "Creativity",
+        "Civic utility",
+        "Developer tools",
+        "Education",
+        "Local community",
+        "Open data",
+        "Personal productivity",
+        "Science"
+      ]
+    },
+    "problem": {
+      "type": "string",
+      "minLength": 30,
+      "maxLength": 700
+    },
+    "audience": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 300
+    },
+    "smallestUsefulVersion": {
+      "type": "string",
+      "minLength": 30,
+      "maxLength": 1000
+    },
+    "successCriteria": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "minLength": 15,
+        "maxLength": 110
+      }
+    },
+    "whyNow": {
+      "type": "string",
+      "maxLength": 700
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "noForbiddenCapabilities",
+        "starsOptional",
+        "openSourceBuild"
+      ],
+      "properties": {
+        "noForbiddenCapabilities": {
+          "const": true,
+          "description": "The proposal does not request credentials, private data, surveillance, malware, spam, weapons, deceptive engagement, access bypass, or irreversible third-party actions."
+        },
+        "starsOptional": {
+          "const": true
+        },
+        "openSourceBuild": {
+          "const": true
+        }
+      }
+    }
+  }
+}

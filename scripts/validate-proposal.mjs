@@ -11,7 +11,7 @@ const event = JSON.parse(readFileSync(eventPath, "utf8"));
 const issue = event.issue;
 if (!issue || issue.pull_request) throw new Error("This validator only accepts issue events");
 
-let result = evaluateProposal(parseIssueForm(issue.body ?? ""));
+let result = evaluateProposal(parseIssueForm(issue.body ?? ""), { title: issue.title });
 let quota = null;
 if (result.verdict === "allow") {
   const author = safeLogin(issue.user?.login);

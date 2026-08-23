@@ -17,7 +17,7 @@ if (existsSync(roundFile)) {
 const issues = await allEligibleIssues();
 const candidates = rankCandidates(issues
   .filter((issue) => !issue.pull_request)
-  .map((issue) => ({ issue, screening: evaluateProposal(parseIssueForm(issue.body ?? "")) }))
+  .map((issue) => ({ issue, screening: evaluateProposal(parseIssueForm(issue.body ?? ""), { title: issue.title }) }))
   .filter((candidate) => candidate.screening.verdict === "allow" && hasPublicVote(candidate)));
 
 if (!candidates.length) {

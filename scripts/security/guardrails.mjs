@@ -15,6 +15,25 @@ const REQUIRED_ACKNOWLEDGEMENTS = Object.freeze([
   "selected build will be open source",
 ]);
 
+const MACHINE_PROPOSAL_KEYS = Object.freeze([
+  "kind",
+  "schemaVersion",
+  "name",
+  "category",
+  "problem",
+  "audience",
+  "smallestUsefulVersion",
+  "successCriteria",
+  "whyNow",
+  "safety",
+]);
+
+const MACHINE_SAFETY_KEYS = Object.freeze([
+  "noForbiddenCapabilities",
+  "starsOptional",
+  "openSourceBuild",
+]);
+
 export const ALLOWED_CATEGORIES = Object.freeze([
   "Accessibility",
   "Climate & environment",
@@ -53,14 +72,23 @@ const DISALLOWED_SHAPES = Object.freeze([
 ]);
 
 export function parseIssueForm(body = "") {
+  const source = String(body).trim();
+  if (source.startsWith("{")) return parseMachineProposal(source);
+
   return Object.fromEntries(
     Object.entries(FIELD_HEADINGS).map(([key, heading]) => [key, readField(body, heading)]),
   );
 }
 
-export function evaluateProposal(input) {
+export function evaluateProposal(input, context = {}) {
   const fields = normalizeFields(input);
   const reasons = [];
+  if (input?.machineSchemaError) {
+    reasons.push({ code: "MACHINE_SCHEMA_INVALID", field: "proposal" });
+  }
+  if (context.title !== undefined && !isProposalTitle(context.title)) {
+    reasons.push({ code: "TITLE_INVALID", field: "title" });
+  }
   for (const [field, minimum, maximum] of [
     ["name", 3, 80],
     ["category", 3, 60],
@@ -91,6 +119,12 @@ export function evaluateProposal(input) {
     reasons: denied ? dedupeReasons(reasons) : dedupeReasons(reviewReasons),
     fields,
   };
+}
+
+export function isProposalTitle(value) {
+  const title = String(value ?? "").normalize("NFKC").trim();
+  const match = title.match(/^\[Proposal\]:\s+(.+)$/);
+  return Boolean(match && match[1].trim().length >= 3 && match[1].trim().length <= 80);
 }
 
 export function compileBuildBrief({ issue, votes, fields }) {
@@ -142,6 +176,85 @@ function normalizeFields(input) {
   return Object.fromEntries(
     Object.keys(FIELD_HEADINGS).map((key) => [key, String(input?.[key] ?? "").normalize("NFKC").trim()]),
   );
+}
+
+function parseMachineProposal(source) {
+  if (source.length > 10_000) return invalidMachineProposal("BODY_TOO_LARGE");
+
+  let value;
+  try {
+    value = JSON.parse(source);
+  } catch {
+    return invalidMachineProposal("INVALID_JSON");
+  }
+
+  if (!isPlainObject(value)) return invalidMachineProposal("ROOT_NOT_OBJECT");
+  if (value.kind !== "sidequest-proposal" || value.schemaVersion !== 1) {
+    return invalidMachineProposal("VERSION_NOT_SUPPORTED");
+  }
+  if (Object.keys(value).some((key) => !MACHINE_PROPOSAL_KEYS.includes(key))) {
+    return invalidMachineProposal("UNKNOWN_FIELD");
+  }
+  if (!isPlainObject(value.safety)) return invalidMachineProposal("SAFETY_NOT_OBJECT");
+  if (Object.keys(value.safety).some((key) => !MACHINE_SAFETY_KEYS.includes(key))) {
+    return invalidMachineProposal("UNKNOWN_SAFETY_FIELD");
+  }
+
+  const stringFields = [
+    "name",
+    "category",
+    "problem",
+    "audience",
+    "smallestUsefulVersion",
+    "whyNow",
+  ];
+  if (stringFields.some((key) => typeof value[key] !== "string")) {
+    return invalidMachineProposal("FIELD_TYPE_INVALID");
+  }
+  if (
+    !Array.isArray(value.successCriteria) ||
+    value.successCriteria.length < 1 ||
+    value.successCriteria.length > 6 ||
+    value.successCriteria.some((criterion) => typeof criterion !== "string")
+  ) {
+    return invalidMachineProposal("SUCCESS_CRITERIA_INVALID");
+  }
+
+  const boundaries = [
+    value.safety.noForbiddenCapabilities === true
+      ? "This proposal does not seek credentials."
+      : "",
+    value.safety.starsOptional === true
+      ? "I understand that stars are optional."
+      : "",
+    value.safety.openSourceBuild === true
+      ? "I agree that the selected build will be open source."
+      : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  return {
+    name: value.name,
+    category: value.category,
+    problem: value.problem,
+    audience: value.audience,
+    mvp: value.smallestUsefulVersion,
+    success: value.successCriteria.join("\n"),
+    whyNow: value.whyNow,
+    boundaries,
+  };
+}
+
+function invalidMachineProposal(machineSchemaError) {
+  return {
+    ...Object.fromEntries(Object.keys(FIELD_HEADINGS).map((key) => [key, ""])),
+    machineSchemaError,
+  };
+}
+
+function isPlainObject(value) {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
 function readField(body, heading) {

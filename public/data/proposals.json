@@ -13,7 +13,14 @@
       "author": "RodCor",
       "votes": 0,
       "url": "https://github.com/RodCor/sidequest-commons/issues/4",
-      "createdAt": "2026-08-23T01:37:17.000Z"
+      "createdAt": "2026-08-23T01:37:17.000Z",
+      "vote": {
+        "method": "POST",
+        "endpoint": "https://api.github.com/repos/RodCor/sidequest-commons/issues/4/reactions",
+        "body": {
+          "content": "+1"
+        }
+      }
     }
   ]
 }

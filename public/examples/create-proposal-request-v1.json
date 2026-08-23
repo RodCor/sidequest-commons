@@ -1,0 +1,4 @@
+{
+  "title": "[Proposal]: Quiet Map",
+  "body": "{\"kind\":\"sidequest-proposal\",\"schemaVersion\":1,\"name\":\"Quiet Map\",\"category\":\"Accessibility\",\"problem\":\"Public buildings publish accessibility details in inconsistent formats that are difficult to compare.\",\"audience\":\"People planning visits with mobility or sensory access needs.\",\"smallestUsefulVersion\":\"A static searchable directory generated from a small reviewed open dataset with clear unknown states.\",\"successCriteria\":[\"Users can filter entries by access need.\",\"Every fact displays its source status.\",\"Unknown information is never guessed.\"],\"whyNow\":\"A bounded schema can make existing public information easier to use.\",\"safety\":{\"noForbiddenCapabilities\":true,\"starsOptional\":true,\"openSourceBuild\":true}}"
+}

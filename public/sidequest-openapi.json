@@ -1,0 +1,131 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Sidequest Commons participation",
+    "version": "1.0.0",
+    "description": "Two direct GitHub operations for proposing and voting. Authentication is sent only to api.github.com; Sidequest Commons never receives it."
+  },
+  "servers": [
+    {
+      "url": "https://api.github.com"
+    }
+  ],
+  "paths": {
+    "/repos/RodCor/sidequest-commons/issues": {
+      "post": {
+        "operationId": "proposeSidequest",
+        "summary": "Create a Sidequest proposal",
+        "description": "Set title to [Proposal]: {name}. Set body to JSON.stringify of an object valid under the public proposal-v1 schema. Do not send labels; repository policy automation applies them.",
+        "security": [
+          {
+            "participantGitHubToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "title",
+                  "body"
+                ],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "pattern": "^\\[Proposal\\]: .{3,80}$"
+                  },
+                  "body": {
+                    "type": "string",
+                    "description": "Serialized sidequest-proposal JSON v1. See the external schema and request example."
+                  }
+                }
+              },
+              "examples": {
+                "completeRequest": {
+                  "externalValue": "https://rodcor.github.io/sidequest-commons/examples/create-proposal-request-v1.json"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Proposal issue created; repository policy automation will screen it."
+          },
+          "422": {
+            "description": "Validation failed or GitHub secondary spam protection rejected the request."
+          }
+        },
+        "x-sidequest-machine-input-schema": "https://rodcor.github.io/sidequest-commons/schemas/proposal-v1.schema.json"
+      }
+    },
+    "/repos/RodCor/sidequest-commons/issues/{issue_number}/reactions": {
+      "post": {
+        "operationId": "voteForSidequest",
+        "summary": "Cast one public Sidequest vote",
+        "description": "Add the participant's +1 reaction to an eligible proposal. A 200 response means that reaction already exists, making retries idempotent.",
+        "security": [
+          {
+            "participantGitHubToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "issue_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "content"
+                ],
+                "properties": {
+                  "content": {
+                    "const": "+1"
+                  }
+                }
+              },
+              "example": {
+                "content": "+1"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The participant's +1 reaction already exists."
+          },
+          "201": {
+            "description": "The participant's +1 reaction was created."
+          },
+          "422": {
+            "description": "Validation failed or GitHub secondary spam protection rejected the request."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "participantGitHubToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Participant-controlled GitHub credential with Issues: write permission. Send it only to api.github.com."
+      }
+    }
+  }
+}

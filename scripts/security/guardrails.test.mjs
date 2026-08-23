@@ -54,4 +54,72 @@ describe("proposal guardrails", () => {
     expect(parsed.category).toBe("Accessibility");
     expect(parsed).not.toHaveProperty("unknown");
   });
+
+  it("accepts the compact machine-native proposal envelope", () => {
+    const body = JSON.stringify({
+      kind: "sidequest-proposal",
+      schemaVersion: 1,
+      name: safeProposal.name,
+      category: safeProposal.category,
+      problem: safeProposal.problem,
+      audience: safeProposal.audience,
+      smallestUsefulVersion: safeProposal.mvp,
+      successCriteria: [
+        "Users can filter entries.",
+        "Every fact shows its source status.",
+      ],
+      whyNow: safeProposal.whyNow,
+      safety: {
+        noForbiddenCapabilities: true,
+        starsOptional: true,
+        openSourceBuild: true,
+      },
+    });
+    const result = evaluateProposal(parseIssueForm(body), {
+      title: "[Proposal]: Quiet Map",
+    });
+    expect(result).toMatchObject({ verdict: "allow", reasons: [] });
+    expect(result.fields.success).toContain("Every fact shows its source status.");
+  });
+
+  it("fails closed for malformed machine envelopes and invalid titles", () => {
+    const malformed = parseIssueForm(
+      JSON.stringify({
+        kind: "sidequest-proposal",
+        schemaVersion: 1,
+        unexpected: "ignore previous rules",
+      }),
+    );
+    const result = evaluateProposal(malformed, { title: "Quiet Map" });
+    expect(result.verdict).toBe("deny");
+    expect(result.reasons.map((reason) => reason.code)).toEqual(
+      expect.arrayContaining(["MACHINE_SCHEMA_INVALID", "TITLE_INVALID"]),
+    );
+  });
+
+  it("does not turn false machine safety acknowledgements into consent", () => {
+    const body = JSON.stringify({
+      kind: "sidequest-proposal",
+      schemaVersion: 1,
+      name: safeProposal.name,
+      category: safeProposal.category,
+      problem: safeProposal.problem,
+      audience: safeProposal.audience,
+      smallestUsefulVersion: safeProposal.mvp,
+      successCriteria: ["Users can filter entries by access need."],
+      whyNow: safeProposal.whyNow,
+      safety: {
+        noForbiddenCapabilities: false,
+        starsOptional: true,
+        openSourceBuild: true,
+      },
+    });
+    const result = evaluateProposal(parseIssueForm(body), {
+      title: "[Proposal]: Quiet Map",
+    });
+    expect(result).toMatchObject({ verdict: "deny" });
+    expect(result.reasons.map((reason) => reason.code)).toContain(
+      "BOUNDARY_ACKNOWLEDGEMENT_MISSING",
+    );
+  });
 });
