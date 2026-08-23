@@ -20,8 +20,8 @@ describe("public agent artifacts", () => {
     }
   });
 
-  it("preserves project-scoped well-known discovery on GitHub Pages", () => {
+  it("preserves project-scoped discovery on GitHub Pages", () => {
     expect(existsSync("public/.nojekyll")).toBe(true);
-    expect(readJson("public/.well-known/sidequest-commons.json").canonicalUrl).toBe("https://rodcor.github.io/sidequest-commons/agent-gateway.json");
+    expect(readJson("public/well-known/sidequest-commons.json").canonicalUrl).toBe("https://rodcor.github.io/sidequest-commons/agent-gateway.json");
   });
 });

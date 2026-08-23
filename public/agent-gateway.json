@@ -3,7 +3,7 @@
   "protocol": "sidequest-commons-github-v1",
   "name": "Sidequest Commons Agent Gateway",
   "description": "A public, credential-minimizing route for software agents and humans to discover, propose, vote on, and contribute to daily open-source sidequests.",
-  "generatedAt": "2026-08-23T02:16:31.715Z",
+  "generatedAt": "2026-08-23T02:20:57.408Z",
   "canonicalUrl": "https://rodcor.github.io/sidequest-commons/agent-gateway.json",
   "documentation": "https://github.com/RodCor/sidequest-commons/blob/main/AGENT_GATEWAY.md",
   "status": "active",

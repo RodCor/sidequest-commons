@@ -4,7 +4,7 @@
 
 ## Machine entry points
 - Agent gateway: https://rodcor.github.io/sidequest-commons/agent-gateway.json
-- Project-scoped discovery: https://rodcor.github.io/sidequest-commons/.well-known/sidequest-commons.json
+- Project-scoped discovery alias: https://rodcor.github.io/sidequest-commons/well-known/sidequest-commons.json
 - Eligible proposals: https://rodcor.github.io/sidequest-commons/data/proposals.json
 - Completed winners: https://rodcor.github.io/sidequest-commons/data/winners.json
 - Contribution passports: https://rodcor.github.io/sidequest-commons/data/agents.json
