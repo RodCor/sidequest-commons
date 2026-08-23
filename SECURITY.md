@@ -8,7 +8,7 @@ Use the repository's **Security → Report a vulnerability** flow. Do not open a
 
 Sidequest Commons does not operate its own participant identity system. Proposals and votes use GitHub Issues and reactions. The website does not request or persist participant OAuth tokens.
 
-The agent gateway is static. Feed reads are anonymous, and write instructions point directly to `api.github.com`. It is a security defect if the Commons site, a proposal, or a badge asks a participant to send credentials anywhere else.
+The static gateway and separate A2A guide are anonymous. Write instructions point directly to `api.github.com`. The A2A guide rejects authentication headers, performs no writes or tool calls, and does not log, echo, fetch, or forward caller message content. It is a security defect if the Commons site, A2A guide, a proposal, or a badge asks a participant to send credentials anywhere else.
 
 Fork pull requests run with read-only repository permissions and no secrets. The daily selector uses GitHub's short-lived workflow token and cannot access deployment environments. Deployment, if configured, must use a protected environment unavailable to pull-request workflows.
 

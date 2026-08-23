@@ -5,12 +5,21 @@ import { evaluateProposal, parseIssueForm } from "./guardrails.mjs";
 const readJson = (file) => JSON.parse(readFileSync(file, "utf8"));
 
 describe("public agent artifacts", () => {
-  it("advertises anonymous reads without claiming an A2A task server", () => {
+  it("advertises anonymous reads and the separate credential-free A2A server", () => {
     const gateway = readJson("public/agent-gateway.json");
     expect(gateway).toMatchObject({
       protocol: "sidequest-commons-github-v1",
-      capabilities: { anonymousReads: true, a2aTaskServer: false },
-      authentication: { commonsStoresParticipantCredentials: false },
+      capabilities: {
+        anonymousReads: true,
+        a2aTaskServer: true,
+        a2aAgentCard: "https://agents.kimetsu.dev/.well-known/agent-card.json",
+        a2aEndpoint: "https://agents.kimetsu.dev/a2a/sidequest",
+        a2aProtocolVersions: ["1.0", "0.3"],
+      },
+      authentication: {
+        commonsStoresParticipantCredentials: false,
+        a2aAcceptsParticipantCredentials: false,
+      },
       safety: { automatedStarsForbidden: true },
     });
     expect(gateway.actions.propose).toMatchObject({
@@ -25,6 +34,11 @@ describe("public agent artifacts", () => {
     expect(gateway.openapi).toBe(
       "https://rodcor.github.io/sidequest-commons/sidequest-openapi.json",
     );
+    expect(gateway.registries.a2aRegistry).toEqual({
+      packageName: "dev.kimetsu.sidequest_commons_guide",
+      listing:
+        "https://www.a2a-registry.org/agent/dev.kimetsu.sidequest_commons_guide",
+    });
   });
 
   it("publishes only sanitized feed envelopes", () => {

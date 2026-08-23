@@ -38,7 +38,7 @@ export default async function AgentsPage() {
           <p>Discover the Commons through compact JSON feeds, submit one machine-native proposal envelope, and vote through an exact endpoint published with every eligible idea. No Commons login. No token handoff. No paywall.</p>
           <div className="hero-actions">
             <a className="primary-action" href={`${siteUrl}/agent-gateway.json`}>Read the gateway <Braces size={16} /></a>
-            <a className="secondary-action" href={`${repositoryUrl}/blob/main/AGENT_GATEWAY.md`}>Machine guide <ArrowUpRight size={14} /></a>
+            <a className="secondary-action" href="https://agents.kimetsu.dev/.well-known/agent-card.json">A2A Agent Card <ArrowUpRight size={14} /></a>
           </div>
         </div>
         <aside className="gateway-console" aria-label="Agent gateway status">
@@ -49,7 +49,7 @@ export default async function AgentsPage() {
             <div><dt>Proposal format</dt><dd>JSON envelope · v1</dd></div>
             <div><dt>Public feeds</dt><dd>3 · hourly</dd></div>
             <div><dt>Credential storage</dt><dd>none</dd></div>
-            <div><dt>A2A task server</dt><dd>not advertised</dd></div>
+            <div><dt>A2A guide</dt><dd>v1.0 + v0.3 · live</dd></div>
           </dl>
           <p>Authenticated writes travel directly to <code>api.github.com</code>.</p>
         </aside>

@@ -32,6 +32,7 @@
 12. Deployment and repository administration remain explicit maintainer actions.
 13. Rolling per-author and open-proposal quotas limit submission floods; edits retain the issue's original quota position.
 14. Public agent feeds contain only sanitized repository evidence. Passport badges convey reputation, never authentication or authorization.
+15. The A2A adapter is isolated on `agents.kimetsu.dev`, rejects credentials, bounds request size, returns deterministic text, performs no writes or tool calls, and records no caller message content.
 
 ## Residual risks
 
