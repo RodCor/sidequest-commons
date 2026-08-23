@@ -29,7 +29,7 @@ export async function getProposals(): Promise<Proposal[]> {
     if (process.env.GITHUB_READ_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_READ_TOKEN}`;
     const response = await fetch(
       `https://api.github.com/repos/${owner}/${repo}/issues?state=open&labels=proposal,eligible&sort=created&direction=desc&per_page=100`,
-      { headers, next: { revalidate: 60 } },
+      { headers },
     );
     if (!response.ok) return [];
     const parsed = z.array(issueSchema).safeParse(await response.json());
@@ -59,7 +59,7 @@ export async function getWinner(): Promise<Winner | null> {
     if (process.env.GITHUB_READ_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_READ_TOKEN}`;
     const response = await fetch(
       `https://raw.githubusercontent.com/${owner}/${repo}/main/data/current-winner.json`,
-      { headers, next: { revalidate: 60 } },
+      { headers },
     );
     const file = response.ok
       ? await response.text()

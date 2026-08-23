@@ -16,8 +16,6 @@ import { Countdown } from "@/components/countdown";
 import { ProposalCard } from "@/components/proposal-card";
 import { getProposals, getWinner, repositoryUrl } from "@/lib/proposals";
 
-export const revalidate = 60;
-
 export default async function Home() {
   const [proposals, winner] = await Promise.all([getProposals(), getWinner()]);
   const totalVotes = proposals.reduce((sum, proposal) => sum + proposal.votes, 0);
@@ -85,7 +83,7 @@ export default async function Home() {
       <section className="proposal-section" id="proposals">
         <header className="section-header">
           <div><p className="eyebrow">Today&apos;s field</p><h2>Ideas gathering gravity</h2></div>
-          <p>Voting stays on GitHub, where identity and every reaction remain inspectable. The board refreshes once a minute.</p>
+          <p>Voting stays on GitHub, where identity and every reaction remain inspectable. The public board refreshes hourly.</p>
         </header>
         {proposals.length ? (
           <div className="proposal-grid">

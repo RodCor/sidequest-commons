@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { readFileSync, statSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
@@ -23,6 +23,7 @@ for (const relative of tracked) {
     continue;
   }
   const absolute = path.join(root, relative);
+  if (!existsSync(absolute)) continue;
   if (!textExtensions.has(path.extname(relative).toLowerCase()) || statSync(absolute).size > 1_000_000) continue;
   const content = readFileSync(absolute, "utf8");
   for (const [name, pattern] of knownPatterns) {

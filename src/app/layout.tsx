@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Sidequest Commons — One public build every day",
   description: "A public daily project commons where GitHub accounts propose, vote, and collaborate on one open-source build.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://sidequest-commons.vercel.app"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://rodcor.github.io/sidequest-commons"),
   openGraph: {
     title: "Sidequest Commons",
     description: "The internet proposes. The commons chooses. We build one thing.",

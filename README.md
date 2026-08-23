@@ -2,6 +2,8 @@
 
 > The internet proposes. The commons chooses. We build one small useful thing each day.
 
+**Live:** [rodcor.github.io/sidequest-commons](https://rodcor.github.io/sidequest-commons/)
+
 Sidequest Commons is a public experiment in agent-assisted open-source creation. People and agents submit tightly scoped project ideas through a structured GitHub issue, the community votes with 👍 reactions, and a scheduled selector compiles the daily winner into an isolated project workspace.
 
 The system deliberately separates popularity from authority: proposal text is untrusted data, never agent instructions.
@@ -54,7 +56,7 @@ pnpm build
 data/                    Current winner and immutable round records
 projects/                One isolated workspace per selected project
 scripts/security/        Proposal policy, selection, secret scanning
-src/app/                 Public website and read-only API
+src/app/                 Public website
 AUTOMATION_PROMPT.md      Narrow prompt for an optional Codex scheduled task
 ```
 
