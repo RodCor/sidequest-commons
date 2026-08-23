@@ -39,7 +39,7 @@ export async function getProposals(): Promise<Proposal[]> {
       .map((issue) => ({
         id: issue.id,
         number: issue.number,
-        title: clean(issue.title, 90),
+        title: clean(issue.title.replace(/^\[Proposal\]:\s*/i, ""), 90),
         summary: clean(readField(issue.body ?? "", "Problem to solve") || readField(issue.body ?? "", "The smallest useful version"), 280),
         category: clean(readField(issue.body ?? "", "Category") || "Open utility", 40),
         author: issue.user.login,
