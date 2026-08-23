@@ -12,7 +12,8 @@
     "security:scan": "node scripts/security/scan-secrets.mjs",
     "proposal:validate": "node scripts/validate-proposal.mjs",
     "winner:select": "node scripts/select-winner.mjs",
-    "winner:finalize": "node scripts/finalize-winner.mjs"
+    "winner:finalize": "node scripts/finalize-winner.mjs",
+    "board:compile": "node scripts/compile-board.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.33.0",

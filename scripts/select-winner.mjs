@@ -14,7 +14,7 @@ if (existsSync(roundFile)) {
   process.exit(0);
 }
 
-const issues = await github(`/repos/${repository}/issues?state=open&labels=proposal,eligible&sort=created&direction=asc&per_page=100`);
+const issues = await allEligibleIssues();
 const candidates = rankCandidates(issues
   .filter((issue) => !issue.pull_request)
   .map((issue) => ({ issue, screening: evaluateProposal(parseIssueForm(issue.body ?? "")) }))
@@ -99,4 +99,15 @@ async function github(endpoint, options = {}) {
   });
   if (!response.ok) throw new Error(`GitHub API ${response.status} on ${endpoint}: ${await response.text()}`);
   return response.status === 204 ? null : response.json();
+}
+
+async function allEligibleIssues() {
+  const collected = [];
+  for (let page = 1; page <= 100; page += 1) {
+    const batch = await github(`/repos/${repository}/issues?state=open&labels=proposal,eligible&sort=created&direction=asc&per_page=100&page=${page}`);
+    if (!Array.isArray(batch)) throw new Error("GitHub returned a malformed issue page");
+    collected.push(...batch);
+    if (batch.length < 100) return collected;
+  }
+  throw new Error("Eligible queue exceeds the 10,000-proposal safety cap");
 }

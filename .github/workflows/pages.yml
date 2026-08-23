@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: read
+  issues: read
   pages: write
   id-token: write
 
@@ -34,10 +35,15 @@ jobs:
           cache: pnpm
       - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
       - run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Compile screened public proposal data
+        run: node scripts/compile-board.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
       - run: pnpm build
         env:
           NEXT_PUBLIC_SITE_URL: https://rodcor.github.io/sidequest-commons
           NEXT_TELEMETRY_DISABLED: "1"
+          SIDEQUEST_USE_COMPILED_BOARD: "true"
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: ./out

@@ -20,8 +20,25 @@ const issueSchema = z.object({
   pull_request: z.unknown().optional(),
 });
 
+const proposalSchema = z.object({
+  id: z.number(),
+  number: z.number(),
+  title: z.string().max(90),
+  summary: z.string().max(280),
+  category: z.string().max(40),
+  author: z.string().max(39),
+  votes: z.number().nonnegative(),
+  url: z.string().url(),
+  createdAt: z.string(),
+});
+
 export async function getProposals(): Promise<Proposal[]> {
   try {
+    if (process.env.SIDEQUEST_USE_COMPILED_BOARD === "true") {
+      const file = await fs.readFile(path.join(process.cwd(), "data", "site-proposals.json"), "utf8");
+      const compiled = z.object({ proposals: z.array(proposalSchema) }).safeParse(JSON.parse(file));
+      return compiled.success ? compiled.data.proposals : [];
+    }
     const headers: HeadersInit = {
       Accept: "application/vnd.github+json",
       "X-GitHub-Api-Version": "2026-03-10",

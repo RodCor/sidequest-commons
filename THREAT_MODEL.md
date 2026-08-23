@@ -21,14 +21,15 @@
 1. Raw proposals remain GitHub issue data and are never builder input.
 2. Structured headings, size limits, allowlisted categories, prohibited-purpose rules, and instruction-shape checks fail closed.
 3. The compiler emits only a fixed JSON schema and removes links, code, HTML, and mentions.
-4. The builder sees the winner brief only and works in an isolated directory or worktree.
-5. Fork CI has `contents: read`, no secrets, no deployment, and no `pull_request_target` checkout.
-6. Actions are pinned by commit SHA; dependency updates are reviewable.
-7. CODEOWNERS routes workflows, policy, security scripts, and agent rules to maintainers for review.
-8. Secret-pattern scanning and GitHub secret scanning cover committed content.
-9. Selection writes an immutable dated audit record and uses deterministic tie-breaking.
-10. A generated commit reaches `main` only after a full gate and a repository-verified check run.
-11. Deployment and repository administration remain explicit maintainer actions.
+4. The public board is compiled in a token-scoped process; the site build receives only sanitized JSON.
+5. The builder sees the winner brief only and works in an isolated directory or worktree.
+6. Fork CI has `contents: read`, no secrets, no deployment, and no `pull_request_target` checkout.
+7. Actions are pinned by commit SHA; dependency updates are reviewable.
+8. CODEOWNERS routes workflows, policy, security scripts, and agent rules to maintainers for review.
+9. Secret-pattern scanning and GitHub secret scanning cover committed content.
+10. Selection writes an immutable dated audit record and uses deterministic tie-breaking.
+11. A generated commit reaches `main` only after a full gate and a repository-verified check run.
+12. Deployment and repository administration remain explicit maintainer actions.
 
 ## Residual risks
 

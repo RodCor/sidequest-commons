@@ -1,0 +1,16 @@
+{
+  "proposals": [
+    {
+      "id": 5224808130,
+      "number": 4,
+      "title": "Alt Text Gym",
+      "summary": "People who publish images often want to write useful alternative text but lack quick, concrete practice with feedback and examples.",
+      "category": "Accessibility",
+      "author": "RodCor",
+      "votes": 0,
+      "url": "https://github.com/RodCor/sidequest-commons/issues/4",
+      "createdAt": "2026-08-23T01:37:17.000Z"
+    }
+  ],
+  "generatedAt": "2026-08-23T01:46:59.649Z"
+}

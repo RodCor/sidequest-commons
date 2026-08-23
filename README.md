@@ -60,6 +60,8 @@ src/app/                 Public website
 AUTOMATION_PROMPT.md      Narrow prompt for an optional Codex scheduled task
 ```
 
+The hourly Pages workflow uses its short-lived token only in a dedicated compiler process. That process paginates the eligible queue, re-screens it, and writes sanitized `data/site-proposals.json`; the Next.js build never receives the token or raw issue bodies.
+
 ## Governance and contribution
 
 Read [GOVERNANCE.md](GOVERNANCE.md), [CONTRIBUTING.md](CONTRIBUTING.md), and the binding agent boundary in [AGENTS.md](AGENTS.md). Security reports belong in a private GitHub security advisory, never a public issue.
