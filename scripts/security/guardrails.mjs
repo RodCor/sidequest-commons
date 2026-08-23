@@ -6,7 +6,14 @@ const FIELD_HEADINGS = Object.freeze({
   mvp: "The smallest useful version",
   success: "Success looks like",
   whyNow: "Why now",
+  boundaries: "Safety boundaries",
 });
+
+const REQUIRED_ACKNOWLEDGEMENTS = Object.freeze([
+  "does not seek credentials",
+  "stars are optional",
+  "selected build will be open source",
+]);
 
 export const ALLOWED_CATEGORIES = Object.freeze([
   "Accessibility",
@@ -67,6 +74,10 @@ export function evaluateProposal(input) {
     if (size > maximum) reasons.push({ code: "FIELD_TOO_LONG", field });
   }
   if (!ALLOWED_CATEGORIES.includes(fields.category)) reasons.push({ code: "CATEGORY_NOT_ALLOWED", field: "category" });
+  const acknowledgements = fields.boundaries.toLowerCase();
+  if (!REQUIRED_ACKNOWLEDGEMENTS.every((text) => acknowledgements.includes(text))) {
+    reasons.push({ code: "BOUNDARY_ACKNOWLEDGEMENT_MISSING", field: "boundaries" });
+  }
 
   const corpus = Object.values(fields).join("\n");
   for (const [code, pattern] of DENY_RULES) if (pattern.test(corpus)) reasons.push({ code, field: "proposal" });

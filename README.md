@@ -11,7 +11,7 @@ The system deliberately separates popularity from authority: proposal text is un
 ## How a round works
 
 1. Sign in with GitHub and open the structured **Project proposal** form.
-2. The policy workflow labels safe, complete proposals `eligible`; ambiguous or unsafe requests are held for review or blocked.
+2. The policy workflow requires all form acknowledgements and labels safe, complete proposals `eligible`; ambiguous or unsafe requests are held for review or blocked.
 3. Vote with a 👍 reaction on the proposals you want built. A GitHub star is welcome but entirely optional.
 4. At 21:00 `America/Argentina/Buenos_Aires`, the scheduled workflow selects the eligible open proposal with the most 👍 reactions.
 5. Ties resolve deterministically: oldest proposal first, then lowest issue number.

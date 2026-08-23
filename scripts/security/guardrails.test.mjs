@@ -9,6 +9,7 @@ const safeProposal = {
   mvp: "A static, searchable directory generated from a small reviewed open dataset, with clear unknown states.",
   success: "Users can filter entries; every fact shows its source status; unknown information is never guessed.",
   whyNow: "A bounded schema can make existing public information easier to use.",
+  boundaries: "This proposal does not seek credentials. I understand that stars are optional. I agree that the selected build will be open source.",
 };
 
 describe("proposal guardrails", () => {
@@ -23,6 +24,15 @@ describe("proposal guardrails", () => {
     });
     expect(result.verdict).toBe("deny");
     expect(result.reasons.map((reason) => reason.code)).toEqual(expect.arrayContaining(["PROMPT_INJECTION", "SECRET_ACCESS"]));
+  });
+
+  it("rejects API submissions that bypass required acknowledgements", () => {
+    const { boundaries, ...withoutAcknowledgements } = safeProposal;
+    expect(boundaries).toBeTruthy();
+    expect(evaluateProposal(withoutAcknowledgements)).toMatchObject({
+      verdict: "deny",
+      reasons: [{ code: "BOUNDARY_ACKNOWLEDGEMENT_MISSING", field: "boundaries" }],
+    });
   });
 
   it("never carries links, mentions, or raw authority into the winner brief", () => {
