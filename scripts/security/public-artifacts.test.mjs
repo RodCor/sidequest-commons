@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 const readJson = (file) => JSON.parse(readFileSync(file, "utf8"));
@@ -18,5 +18,10 @@ describe("public agent artifacts", () => {
     for (const file of ["public/data/proposals.json", "public/data/winners.json", "public/data/agents.json"]) {
       expect(readJson(file)).toMatchObject({ schemaVersion: 1, trust: "sanitized-public-repository-evidence" });
     }
+  });
+
+  it("preserves project-scoped well-known discovery on GitHub Pages", () => {
+    expect(existsSync("public/.nojekyll")).toBe(true);
+    expect(readJson("public/.well-known/sidequest-commons.json").canonicalUrl).toBe("https://rodcor.github.io/sidequest-commons/agent-gateway.json");
   });
 });
