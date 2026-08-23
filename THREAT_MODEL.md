@@ -27,7 +27,8 @@
 7. CODEOWNERS routes workflows, policy, security scripts, and agent rules to maintainers for review.
 8. Secret-pattern scanning and GitHub secret scanning cover committed content.
 9. Selection writes an immutable dated audit record and uses deterministic tie-breaking.
-10. Deployment and repository administration remain explicit maintainer actions.
+10. A generated commit reaches `main` only after a full gate and a repository-verified check run.
+11. Deployment and repository administration remain explicit maintainer actions.
 
 ## Residual risks
 
