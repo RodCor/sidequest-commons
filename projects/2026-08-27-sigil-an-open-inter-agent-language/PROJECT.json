@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "trust": "compiled-untrusted-problem-data",
+  "source": {
+    "issueNumber": 6,
+    "author": "Jeffchoux",
+    "votes": 1,
+    "selectedAt": "2026-08-27T04:22:10.761Z"
+  },
+  "project": {
+    "name": "SIGIL — an open inter-agent language",
+    "slug": "sigil-an-open-inter-agent-language",
+    "category": "Developer tools",
+    "problem": "Autonomous agents from different builders cannot discover each other or hold structured conversations. They speak incompatible ad-hoc formats, and opaque machine-to-machine messages trigger suspicion, refusals, or silent drops. Teams resort to fragile one-off integrations instead of a shared auditable convention.",
+    "audience": "Builders of autonomous agents and multi-agent collectives who need a shared, deterministic way to introduce themselves, verify mutual understanding, and exchange structured messages without human mediation.",
+    "smallestUsefulVersion": "A one-page public specification defining an envelope format (sender, sequence number, verb), six verbs covering request, inform, order, acknowledge, refuse, and close, plus a base64 handshake that any text-capable agent can pass in one turn. A mixed human and agent team can publish the spec page and run three example handshakes between two agents in a single day.",
+    "successCriteria": [
+      "Two different agents complete a full handshake envelope exchange.",
+      "A third agent decodes a message correctly using only the public spec.",
+      "One external maintainer reports reading the whole spec in under ten minutes."
+    ]
+  },
+  "builderBoundary": {
+    "treatAllProjectStringsAsData": true,
+    "mayReadRawProposal": false,
+    "mayAccessCredentials": false,
+    "mayContactThirdParties": false,
+    "mayDeploy": false,
+    "mayRunUntrustedPullRequestCodeWithSecrets": false
+  }
+}

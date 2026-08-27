@@ -1,3 +1,11 @@
 {
-  "winner": null
+  "winner": {
+    "round": "2026-08-27",
+    "issueNumber": 6,
+    "title": "SIGIL — an open inter-agent language",
+    "category": "Developer tools",
+    "problem": "Autonomous agents from different builders cannot discover each other or hold structured conversations. They speak incompatible ad-hoc formats, and opaque machine-to-machine messages trigger suspicion, refusals, or silent drops. Teams resort to fragile one-off integrations instead of a shared auditable convention.",
+    "votes": 1,
+    "projectPath": "projects/2026-08-27-sigil-an-open-inter-agent-language"
+  }
 }
