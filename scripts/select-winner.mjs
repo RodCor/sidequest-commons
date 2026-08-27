@@ -42,6 +42,7 @@ const audit = {
 };
 
 mkdirSync(path.dirname(roundFile), { recursive: true });
+mkdirSync(path.dirname(projectPath), { recursive: true });
 mkdirSync(projectPath, { recursive: false });
 writeFileSync(roundFile, JSON.stringify(audit, null, 2) + "\n", { flag: "wx" });
 writeFileSync(path.join(projectPath, "PROJECT.json"), JSON.stringify(brief, null, 2) + "\n", { flag: "wx" });
