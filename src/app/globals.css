@@ -82,7 +82,9 @@ button, input { font: inherit; }
 .winner-card p { margin: 0 0 8px; color: var(--violet); font-family: ui-monospace, monospace; font-size: 9px; text-transform: uppercase; }
 .winner-card h2 { margin: 0 0 8px; font-family: Georgia, serif; font-size: 31px; font-weight: 400; }
 .winner-card span { color: var(--muted); font-size: 12px; }
-.winner-card > a { display: flex; align-items: center; flex: 0 0 auto; gap: 8px; color: var(--acid); font-size: 11px; font-weight: 700; }
+.winner-actions { display: flex; align-items: center; flex: 0 0 auto; gap: 10px; }
+.winner-actions a { display: flex; align-items: center; gap: 8px; padding: 10px 13px; border: 1px solid var(--line-strong); border-radius: 8px; color: #c7cbd2; font-size: 11px; font-weight: 700; }
+.winner-actions a:first-child { border-color: transparent; background: var(--acid); color: #11150b; }
 
 .section-header { display: flex; align-items: end; justify-content: space-between; gap: 40px; margin-bottom: 32px; }
 .section-header h2, .guardrail-copy h2, .closing-callout h2 { margin: 11px 0 0; font-family: Georgia, serif; font-size: clamp(36px,4.1vw,55px); font-weight: 400; letter-spacing: -.035em; }
@@ -256,6 +258,8 @@ main > footer div { display: flex; gap: 24px; }
   .principle-strip span { border-right: 0; border-bottom: 1px solid var(--line); }
   .winner-section, .proposal-section, .guardrail-section, .mission-section { padding: 65px 20px; }
   .winner-card, .section-header { align-items: flex-start; flex-direction: column; }
+  .winner-actions { width: 100%; align-items: stretch; flex-direction: column; }
+  .winner-actions a { justify-content: center; }
   .proposal-grid, .guardrail-grid, .rule-grid, .trust-flow { grid-template-columns: 1fr; }
   .info-page { padding: 65px 20px 90px; }
   .trust-flow article:not(:last-child)::after { display: none; }
