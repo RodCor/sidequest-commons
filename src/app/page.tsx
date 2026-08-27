@@ -21,6 +21,8 @@ import { getProposals, getWinner, repositoryUrl } from "@/lib/proposals";
 
 export default async function Home() {
   const [proposals, winner, passports] = await Promise.all([getProposals(), getWinner(), getContributionPassports()]);
+  const sigilProjectPath = "projects/2026-08-27-sigil-an-open-inter-agent-language";
+  const winnerHasDemo = winner?.projectPath === sigilProjectPath;
   const totalVotes = proposals.reduce((sum, proposal) => sum + proposal.votes, 0);
   const roundReady = totalVotes > 0;
   const earnedBadges = passports.reduce((sum, passport) => sum + passport.badges.length, 0);
@@ -109,7 +111,10 @@ export default async function Home() {
           <div className="winner-kicker"><Sparkles size={15} />Latest selection · {winner.round}</div>
           <div className="winner-card">
             <div><p>{winner.category}</p><h2>{winner.title}</h2><span>{winner.problem}</span></div>
-            <a href={`${repositoryUrl}/tree/main/${winner.projectPath}`} target="_blank" rel="noreferrer">Enter the build <ArrowUpRight size={15} /></a>
+            <div className="winner-actions">
+              {winnerHasDemo ? <Link href={`/${sigilProjectPath}`}>Open live demo <ArrowUpRight size={15} /></Link> : null}
+              <a href={`${repositoryUrl}/tree/main/${winner.projectPath}`} target="_blank" rel="noreferrer">{winnerHasDemo ? "View source" : "Enter the build"} <ArrowUpRight size={15} /></a>
+            </div>
           </div>
         </section>
       ) : null}
