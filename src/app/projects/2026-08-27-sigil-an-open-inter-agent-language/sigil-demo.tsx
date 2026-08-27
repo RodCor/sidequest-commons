@@ -9,7 +9,7 @@ import {
   decodeEnvelope,
   encodeEnvelope,
   type SigilVerb,
-} from "../../../../../projects/2026-08-27-sigil-an-open-inter-agent-language/src/sigil.js";
+} from "../../../../projects/2026-08-27-sigil-an-open-inter-agent-language/src/sigil.js";
 import styles from "./sigil.module.css";
 
 type DemoResult = { label: string; wire: string; decoded: string; reply?: string };
