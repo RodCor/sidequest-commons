@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="SIGIL/1: a tiny, auditable language for structured inter-agent messages." />
+    <title>SIGIL/1 — open inter-agent language</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <nav aria-label="Page sections">
+        <a class="mark" href="#top" aria-label="SIGIL home">⌁ SIGIL/1</a>
+        <div><a href="#spec">Spec</a><a href="#verbs">Verbs</a><a href="#try">Try it</a></div>
+      </nav>
+      <div class="hero-copy" id="top">
+        <p class="eyebrow">OPEN PROTOCOL · VERSION 1</p>
+        <h1>Agents should know<br /><em>what each other mean.</em></h1>
+        <p class="lede">A deterministic envelope, six verbs, and a one-turn handshake—small enough to audit in under ten minutes.</p>
+        <a class="button" href="#spec">Read the specification <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="wire" aria-label="Example SIGIL message">
+        <span>sender</span><b>atlas.agent</b><span>seq</span><b>007</b><span>verb</span><b class="accent">INFORM</b><span>body</span><b>{ status: "ready" }</b>
+      </div>
+    </header>
+
+    <main>
+      <section id="spec" class="section intro">
+        <div><p class="eyebrow">01 · ENVELOPE</p><h2>Five fields.<br />No hidden meaning.</h2></div>
+        <div class="prose">
+          <p>Every decoded message is a JSON object containing exactly <code>sigil</code>, <code>sender</code>, <code>seq</code>, <code>verb</code>, and <code>body</code>. Unknown fields are invalid.</p>
+          <pre><code>{
+  "sigil": "1",
+  "sender": "atlas.agent",
+  "seq": 0,
+  "verb": "INFORM",
+  "body": { "status": "ready" }
+}</code></pre>
+          <dl class="rules">
+            <div><dt>sender</dt><dd>1–64 safe ASCII characters; starts alphanumeric.</dd></div>
+            <div><dt>seq</dt><dd>A non-negative integer increasing per sender.</dd></div>
+            <div><dt>body</dt><dd>A JSON object. Keys are recursively sorted on the wire.</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section id="verbs" class="section dark">
+        <p class="eyebrow">02 · VOCABULARY</p><h2>Six verbs are enough.</h2>
+        <div class="verb-grid">
+          <article><span>01</span><h3>REQUEST</h3><p>Ask for information or an optional action.</p></article>
+          <article><span>02</span><h3>INFORM</h3><p>Provide facts or state without commanding.</p></article>
+          <article><span>03</span><h3>ORDER</h3><p>Direct an action under pre-existing authority.</p></article>
+          <article><span>04</span><h3>ACK</h3><p>Confirm receipt and acceptance—not completion.</p></article>
+          <article><span>05</span><h3>REFUSE</h3><p>Decline with a machine-readable reason.</p></article>
+          <article><span>06</span><h3>CLOSE</h3><p>End the conversation cleanly.</p></article>
+        </div>
+        <p class="warning">SIGIL describes intent. It never grants identity, trust, or authority.</p>
+      </section>
+
+      <section class="section handshake">
+        <div><p class="eyebrow">03 · HANDSHAKE</p><h2>One message in.<br />One acknowledgment out.</h2></div>
+        <ol>
+          <li><b>Canonicalize</b><span>Sort object keys and serialize compact UTF-8 JSON.</span></li>
+          <li><b>Encode</b><span>Use unpadded base64url. It is visible encoding, not encryption.</span></li>
+          <li><b>Prefix</b><span><code>SIGIL1.&lt;payload&gt;</code> exposes the protocol before decoding.</span></li>
+          <li><b>Acknowledge</b><span>Reply with the sender and sequence received.</span></li>
+        </ol>
+      </section>
+
+      <section id="try" class="section lab">
+        <div><p class="eyebrow">04 · REFERENCE CODEC</p><h2>Try the wire format.</h2><p>Everything runs locally in this page. Nothing is sent anywhere.</p></div>
+        <form id="codec-form">
+          <label>Sender<input id="sender" value="atlas.agent" maxlength="64" /></label>
+          <label>Sequence<input id="seq" type="number" min="0" step="1" value="0" /></label>
+          <label>Verb<select id="verb"><option>REQUEST</option><option selected>INFORM</option><option>ORDER</option><option>ACK</option><option>REFUSE</option><option>CLOSE</option></select></label>
+          <label class="wide">Body JSON<textarea id="body" rows="4">{"status":"ready"}</textarea></label>
+          <button type="submit">Encode message</button>
+        </form>
+        <div class="output"><div><span>WIRE MESSAGE</span><button id="copy" type="button">Copy</button></div><output id="wire" aria-live="polite">Submit the form to encode a message.</output></div>
+      </section>
+    </main>
+
+    <footer><span>⌁ SIGIL/1</span><p>Syntax is not security. Authenticate peers, reject replays, limit sizes, and never execute decoded bodies.</p></footer>
+    <script type="module" src="src/demo.js"></script>
+  </body>
+</html>
